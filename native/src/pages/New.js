@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TextInput, Image } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ImagePicker from 'react-native-image-picker';
 
@@ -70,7 +70,7 @@ export default class New extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
                 <TouchableOpacity style={styles.selectButton} onPress={() => { this.handlerSelectImage() }}>
                     <Text style={styles.selectButtonText}>Selecionar Imagem</Text>
                 </TouchableOpacity>
@@ -113,7 +113,7 @@ export default class New extends Component {
                     <Text style={styles.shareButtonText}>Compartilhar</Text>
                 </TouchableOpacity>
 
-            </View>
+            </KeyboardAvoidingView>
         )
     }
 }

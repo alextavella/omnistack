@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Image, TouchableOpacity, FlatList, StyleSheet } from 'react-native'
+import { View, Text, Image, TouchableOpacity, FlatList, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import io from 'socket.io-client';
 
 import api from '../services/api'
@@ -10,8 +10,12 @@ import like from '../assets/like.png'
 import comment from '../assets/comment.png'
 import send from '../assets/send.png'
 
+const DOUBLE_PRESS_DELAY = 300;
+
 export default class Feed extends Component {
-    socket = io('http://localhost:3333')
+    socket = io('http://10.116.215.24:3333')
+
+    lastImagePress = null
 
     state = {
         feed: [],
@@ -34,6 +38,18 @@ export default class Feed extends Component {
 
     handlerLike = async id => {
         await api.post(`/posts/${id}/like`)
+    }
+
+    handleImagePress(postId) {
+        const now = new Date().getTime();
+
+        if (this.lastImagePress && (now - this.lastImagePress) < DOUBLE_PRESS_DELAY) {
+            delete this.lastImagePress;
+            this.handlerLike(postId);
+        }
+        else {
+            this.lastImagePress = now;
+        }
     }
 
     registerToSocket = () => {
@@ -67,7 +83,9 @@ export default class Feed extends Component {
                             <Image source={more} />
                         </View>
 
-                        <Image style={styles.feedImagem} source={{ uri: `http://localhost:3333/files/${item.image}` }} />
+                        <TouchableWithoutFeedback onPress={(event) => this.handleImagePress(item._id)}>
+                            <Image style={styles.feedImagem} source={{ uri: `http://10.116.215.24:3333/files/${item.image}` }} />
+                        </TouchableWithoutFeedback>
 
                         <View style={styles.feedItemFooter}>
                             <View style={styles.actions}>
