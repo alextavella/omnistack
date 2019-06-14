@@ -32,7 +32,7 @@ class Feed extends Component {
     }
 
     registerToSocket = () => {
-        this.socket.on('post', newPost => {
+        this.socket.on('post_created', newPost => {
             this.setState({ feed: [newPost, ...this.state.feed] })
         })
 
