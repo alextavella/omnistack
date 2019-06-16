@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import api from '../services/api';
 import io from 'socket.io-client';
 
-import './Feed.css';
+// import './Feed.css';
+import { PostList } from './FeedStyles'
 
 import more from '../assets/more.svg';
 import like from '../assets/like.svg';
@@ -47,7 +48,7 @@ class Feed extends Component {
 
     render() {
         return (
-            <section id="post-list">
+            <PostList>
                 {this.state.feed.map(post => (
                     <article key={post._id}>
                         <header>
@@ -59,7 +60,7 @@ class Feed extends Component {
                             <img src={more} alt="Mais" />
                         </header>
 
-                        <img src={`http://10.116.215.24:3333/files/${post.image}`} alt="" />
+                        <img src={`http://localhost:3333/files/${post.image}`} alt="" />
 
                         <footer>
                             <div className="actions">
@@ -79,7 +80,7 @@ class Feed extends Component {
                         </footer>
                     </article>
                 ))}
-            </section>
+            </PostList>
         )
     }
 }
